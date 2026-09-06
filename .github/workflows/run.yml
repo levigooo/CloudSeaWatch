@@ -1,27 +1,27 @@
-名称: 云海预测每日推送
+name: yunhai-daily-push
 
-开启:
-  计划:
+on:
+  schedule:
     - cron: '0 23 * * *'
-workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
- 预测:
+  predict:
     runs-on: ubuntu-latest
- 超时分钟数: 15
+    timeout-minutes: 15
     steps:
-      - 名称: 检出代码
-: actions/checkout@v4
+      - name: checkout
+        uses: actions/checkout@v4
 
-name: 安装Python
-        使用: actions/setup-python@v5
+      - name: setup-python
+        uses: actions/setup-python@v5
         with:
-          Python 版本: '3.11'
+          python-version: '3.11'
 
-      - 名称: 安装依赖
-        运行: pip install requests matplotlib
+      - name: install-deps
+        run: pip install requests matplotlib
 
-      - 名称: 运行云海预测
-        环境:
+      - name: run-predict
+        env:
           WECHAT_KEY: ${{ secrets.WECHAT_KEY }}
         run: python yh.py
